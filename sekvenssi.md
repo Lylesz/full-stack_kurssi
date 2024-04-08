@@ -1,3 +1,3 @@
-sequenceDiagrammi
+sequenceDiagram
     participant browser
     participant server
