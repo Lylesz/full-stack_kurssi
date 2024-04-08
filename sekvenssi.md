@@ -1,27 +1,28 @@
-sequenceDiagram
-    participant browser
-    participant server
+sekvenssiKaavio
+    osallistuja selain
+    osallistuja palvelin
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-    activate server
-    server-->>browser: HTML document
-    deactivate server
+    selain->>palvelin: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    aktivoi palvelin
+    palvelin-->>selain: HTML-dokumentti
+    deaktivoi palvelin
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-    activate server
-    server-->>browser: the css file
-    deactivate server
+    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    aktivoi palvelin
+    palvelin-->>selain: CSS-tiedosto
+    deaktivoi palvelin
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
-    activate server
-    server-->>browser: the JavaScript file
-    deactivate server
+    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    aktivoi palvelin
+    palvelin-->>selain: JavaScript-tiedosto
+    deaktivoi palvelin
     
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    Teksti selaimen oikealla puolella: Selain alkaa suorittaa JavaScript-koodia, joka noutaa JSON-tiedoston palvelimelta.
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
-    deactivate server    
+    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    aktivoi palvelin
+    palvelin-->>selain: [{ "content": "a", "date": "2024-04-08T14:58:30.839Z" }, ... ]
+    deaktivoi server    
 
-    Note right of browser: The browser executes the callback function that renders the notes 
+    Teksti selaimen oikealla puolella: Suorittaa callback-funktion, joka renderöi muistiinpanot.
