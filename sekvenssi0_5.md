@@ -3,8 +3,7 @@ sequenceDiagram
     participant selain
     participant palvelin
 
-    selain->>palvelin: POST https://studies.cs.helsinki.fi/exampleapp/new_note
-    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/spa
     activate palvelin
     palvelin-->>selain: HTML-dokumentti
     deactivate palvelin
@@ -14,7 +13,7 @@ sequenceDiagram
     palvelin-->>selain: CSS-tiedosto
     deactivate palvelin
     
-    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
     activate palvelin
     palvelin-->>selain: JavaScript-tiedosto
     deactivate palvelin
@@ -23,7 +22,7 @@ sequenceDiagram
     
     selain->>palvelin: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate palvelin
-    palvelin-->>selain: [{ "content": "a", "date": "2024-04-08T14:58:30.839Z" }, ... ]
+    palvelin-->>selain: [{ "content": "form data is sent with HTTP POST", "date": "2024-04-11T01:49:54.058Z" }, ... ]
     deactivate palvelin    
 
     Note right of selain: Selain suorittaa callback-funktion, joka renderöi muistiinpanot.
