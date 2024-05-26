@@ -29,7 +29,7 @@ const App = () => {
        )
   }
 
-  const Content = () => {
+  const Content = ({course}) => {
     return (   
     <div>
         <Part name={course.parts[0].name} exercises={course.parts[0].exercises} />
@@ -51,7 +51,7 @@ const App = () => {
     <div>
     
       <Header/>
-      <Content/>
+      <Content course={course}/>
       <Total/>
     </div>
   )
