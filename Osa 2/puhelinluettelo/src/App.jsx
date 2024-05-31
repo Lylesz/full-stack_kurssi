@@ -23,9 +23,9 @@ const PersonForm =({addPerson, newName, handleNameChange, newNumber, handleNumbe
   )
 }
 
-const Persons = ({personsToShow}) => {
+const Persons = ({peopleToShow}) => {
   return(
-    <div>{personsToShow.map(person => <p key={person.name}>{person.name} {person.number}</p>
+    <div>{peopleToShow.map(person => <p key={person.name}>{person.name} {person.number}</p>
   )}</div>
   )
 }
@@ -63,23 +63,23 @@ const App = () => {
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
+    //console.log(event.target.value)
     setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
-    console.log(event.target.value)
+    //console.log(event.target.value)
     setNewNumber(event.target.value)
   }
 
   const handleCondChange = (event) => {
-    console.log(event.target.value)
+    //console.log(event.target.value)
     const condition = event.target.value
     setFilterCond(condition)
-    console.log('filterCond', filterCond, 'condition', condition)
+    //console.log('filterCond', filterCond, 'condition', condition)
   }
 
-const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filterCond.toLowerCase()))
+const peopleToShow = persons.filter(person => person.name.toLowerCase().includes(filterCond.toLowerCase()))
  
 useEffect(() => {
   console.log('filterCond', filterCond);
@@ -93,7 +93,7 @@ useEffect(() => {
       <h2>Add a new contact</h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow}/>
+      <Persons peopleToShow={peopleToShow}/>
     </div>
   )
 
