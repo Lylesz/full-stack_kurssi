@@ -44,12 +44,41 @@ const Persons = ({peopleToShow}) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  if(message==='Number deleted' || message==='Contact updated' || 
+    message==='Contact added'){
+  return (
+    <div className="success">
+      {message}
+    </div>
+  )}
+  else if(message=== 'Contact not found'){
+    return(
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+  else if (message!==null){
+    return(
+      <div>
+        {message}
+      </div>
+    )
+  }
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('') 
   const [newNumber, setNewNumber]= useState('')
   const [filterCond, setFilterCond] = useState('')
-  const [personToDelete, setPersonToDelete] = useState('')  
+  const [personToDelete, setPersonToDelete] = useState('') 
+  const [message, setMessage] = useState(null) 
 
   useEffect(() => {
     personService
@@ -75,14 +104,21 @@ const App = () => {
         alert(`Name ${newName} is already added to phonebook`)
         
         if(window.confirm(`Replace the old number with a new one?`)){
-         id= persons.find(person => person.name ===newName).id}
+         id= persons.find(person => person.name ===newName).id
          const changedPerson = {...persons.find(person => person.id ===id), number: newNumber}
          
          personService
           .update(id, changedPerson)
           .then(returnedPerson => {
-            setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+            console.log('returnedPerson', returnedPerson.data)
+            setPersons(persons.map(person => person.id !== id ? person : returnedPerson.data))
+            setMessage(returnedPerson.message)
+            setNewName('')
+            setNewNumber('')
+          }).catch(error => {
+            setMessage('Contact not found')
           })
+        }
       }
       if(persons.find( person => person.number ===newNumber)){
         alert(`Number ${newNumber} is already added to phonebook`)}  
@@ -92,9 +128,11 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
+          setPersons(persons.concat(returnedPerson.data))
           setNewName('')
           setNewNumber('')
+          setMessage(returnedPerson.message)
+          console.log(returnedPerson.message)
         })
     }
   }
@@ -104,20 +142,19 @@ const App = () => {
     let id=''
 
     if( window.confirm(`Delete ${personToDelete}?`)){
-    
-  
       if (persons.find(person => person.name === personToDelete)){
         id = persons.find(person => person.name === personToDelete).id}
       else{ 
-         id = 'not found'
+        id = 'not found'
         
         }
 
     personService
       .deletion(id)
-      .then( returnedPerson =>{
-        setPersons(persons.filter(person => person.id != returnedPerson.id))
-        setPersonToDelete('')
+      .then(result => {
+        setPersons(persons.filter(person => person.id !== id));
+        setMessage(result.message);
+        setPersonToDelete('');
       })
     }
   }
@@ -145,9 +182,9 @@ const App = () => {
     console.log('personToDelete', personToDelete)
   }
 
-const peopleToShow = persons.filter(person => person.name.toLowerCase().includes(filterCond.toLowerCase()))
+  const peopleToShow = persons.filter(person => person.name.toLowerCase().includes(filterCond.toLowerCase()))
  
-useEffect(() => {
+  useEffect(() => {
   console.log('filterCond', filterCond);
   }, [filterCond]); 
 
@@ -155,6 +192,7 @@ useEffect(() => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}/>
       <Filter filterCond={filterCond} handleCondChange={handleCondChange}/>
       <h2>Add a new contact</h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
