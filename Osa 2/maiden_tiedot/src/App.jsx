@@ -50,13 +50,13 @@ const Countries = ({ countriesToShow, apiKey }) => {
             <li key={language}>{language}</li>
           ))}
         </ul>
-        <img src={selectedCountry.flags.png} alt={`Flag of ${selectedCountry.name.common}`} />
+        <img src={selectedCountry.flags.png}/>
         <h3>Weather in {selectedCountry.capital}</h3>
         <p>Temperature: {weather.main ? `${weather.main.temp} °C` : 'No temperature available'}</p>
         <p>Wind: {weather.wind ? `${weather.wind.speed} m/s` : 'No wind speed available'}</p>
         <button onClick={() => setSelectedCountry(null)}>Back to list</button>
       </div>
-    );
+    )
   } else { 
     return (
       <div>
